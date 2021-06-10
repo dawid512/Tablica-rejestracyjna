@@ -1,0 +1,50 @@
+﻿@model tablica_rejestracyjna.Data.tablice
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Edit</h1>
+
+<h4>tablice</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="tablicaId" />
+            <div class="form-group">
+                <label asp-for="tablicaName" class="control-label"></label>
+                <input asp-for="tablicaName" class="form-control" />
+                <span asp-validation-for="tablicaName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ocen_w_gore" class="control-label"></label>
+                <input asp-for="ocen_w_gore" class="form-control" />
+                <span asp-validation-for="ocen_w_gore" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ocen_w_dol" class="control-label"></label>
+                <input asp-for="ocen_w_dol" class="form-control" />
+                <span asp-validation-for="ocen_w_dol" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Nazwa_pojazdu" class="control-label"></label>
+                <input asp-for="Nazwa_pojazdu" class="form-control" />
+                <span asp-validation-for="Nazwa_pojazdu" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

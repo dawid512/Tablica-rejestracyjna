@@ -1,0 +1,42 @@
+﻿@page
+@model tablica_rejestracyjna.Areas.Identity.Pages.Account.Manage.dodaj_pojazdModel
+
+@{
+    ViewData["Title"] = "dodaj_pojazd";
+    Layout = "~/Areas/Identity/Pages/Account/Manage/_Layout.cshtml";
+}
+
+<h1>dodaj_pojazd</h1>
+
+<h4>tablice</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="tablice.tablicaId" />
+            <div class="form-group">
+                <label asp-for="tablice.tablicaName" class="control-label"></label>
+                <input asp-for="tablice.tablicaName" class="form-control" disabled />
+                
+            </div>
+         
+            <div class="form-group">
+                <label asp-for="tablice.Nazwa_pojazdu" class="control-label"></label>
+                <input asp-for="tablice.Nazwa_pojazdu" class="form-control" />
+                <span asp-validation-for="tablice.Nazwa_pojazdu" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./TabliceUserListPage">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

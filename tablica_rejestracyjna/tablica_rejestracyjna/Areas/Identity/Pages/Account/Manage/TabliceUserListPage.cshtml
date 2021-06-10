@@ -1,0 +1,76 @@
+﻿@page
+@model tablica_rejestracyjna.Areas.Identity.Pages.Account.Manage.TabliceUserListPageModel
+
+@{
+    ViewData["Title"] = "TabliceUserListPage";
+    Layout = "~/Areas/Identity/Pages/Account/Manage/_Layout.cshtml";
+}
+
+<h1>Twoje Tablice Rejstracyjne</h1>
+
+
+
+<form method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    
+    <input type="hidden" asp-for="@Model.tablice.UserID" />
+    <div class="form-group">
+        <label asp-for="tablice.tablicaName" class="control-label"></label>
+        <input asp-for="tablice.tablicaName" class="form-control" />
+        <span asp-validation-for="tablice.tablicaName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Dodaj" class="btn btn-primary" />
+    </div>
+</form>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.tablice1[0].tablicaName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.tablice1[0].ocen_w_gore)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.tablice1[0].ocen_w_dol)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.tablice1[0].Nazwa_pojazdu)
+            </th>
+           
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.tablice1)
+        {
+            <tr>
+                <td>
+                    <a itemscope itemprop='image' itemtype='http://schema.org/ImageObject'>
+                        <a asp-action="Details" asp-route-id="@item.tablicaId" class='plate'>@item.tablicaName</a>
+                    </a>
+
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ocen_w_gore)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ocen_w_dol)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nazwa_pojazdu)
+                </td>
+               
+                <td>
+                    <a asp-page="./dodaj_pojazd" asp-route-id="@item.tablicaId">dodaj_pojazd</a> |
+                    
+                    <a asp-page="./Delete" asp-route-id="@item.tablicaId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,35 @@
+﻿@model IEnumerable<tablica_rejestracyjna.Data.Komentarze>
+
+@{ 
+    
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+  
+}
+
+
+
+
+@foreach (var item in Model)
+{
+    <div class="comment ">
+        <a itemscope itemprop='image' itemtype='http://schema.org/ImageObject'>
+            <a asp-action="Details" asp-route-id="@item.tablicaID" class='plate'>@item.Tablice.tablicaName</a>
+        </a>
+
+        <span style="float: right; margin-top: -10px; font-size: x-small; font-weight: bold;">
+            <span class="name">@item.Name  @item.CommentDate</span>
+        </span>
+        <br />
+        <br />
+        <span class="text" itemprop="text">
+            @item.tresc_comment
+            <a href="@Url.Content(item.zdjecie)">
+                <img src=@Url.Content(item.zdjecie)></img>
+            </a>
+
+        </span>
+
+    </div>
+}
+

@@ -1,0 +1,253 @@
+﻿@model tablica_rejestracyjna.Data.Komentarze
+
+@{
+
+    List<tablica_rejestracyjna.Data.Komentarze> komentarze = ViewBag.Komentarze;
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var tablica = ViewBag.Tablice;
+
+}
+@using Microsoft.AspNetCore.Identity
+@using tablica_rejestracyjna.Data;
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+<style>
+    body {
+        background-color: #4A8EC2;
+        color: #E4EEF6;
+    }
+
+    a, a:visited {
+        color: #fff;
+    }
+
+        a:hover {
+            color: #e4eef6;
+        }
+
+    span.plate {
+        background: url('/pl.png') no-repeat #fff;
+        background-position-y: -6px;
+        padding: 2px 14px 2px 18px;
+        border: 2px solid #000;
+        clear: both;
+        height: 38px;
+        font-size: 200%;
+        color: #000;
+        font-family: Lucida Console,Monaco,monospace;
+        padding: 2px 14px 2px 18px;
+        border: 2px solid black;
+        -webkit-border-radius: 3px;
+        -moz-border-radius: 3px;
+        border-radius: 3px;
+    }
+
+        span.plate a, span.plate a:visited, span.plate a:hover {
+            color: #000;
+            font-family: sans-serif,Lucida Console,Monaco,monospace;
+        }
+
+    img.plate {
+        height: 58px;
+        border-radius: 7px;
+    }
+
+    .voteOption {
+        float: left;
+        margin-left: 10px;
+    }
+
+    .fingerUp, .fingerDown {
+        width: 44px;
+        height: 43px;
+        display: inline-block;
+        line-height: 43px;
+        background-image: url(https://tablica-rejestracyjna.pl/img/up-down.png);
+        background-position: -102px -6px;
+        border-radius: 12px;
+        border: 1px solid black;
+        box-shadow: 0px 0px 6px black;
+    }
+
+    .fingerDown {
+        background-position: -102px -55px;
+    }
+
+    .voteOption .ttip {
+        height: 43px;
+        display: inline-block;
+        line-height: 43px;
+        width: 100px;
+        vertical-align: top;
+    }
+
+        .voteOption .ttip .caret {
+            display: inline-block;
+            width: 0;
+            height: 0;
+            margin-left: 2px;
+            vertical-align: middle;
+            border-right: 10px solid white;
+            border-top: 10px solid transparent;
+            border-bottom: 10px solid transparent;
+        }
+
+        .voteOption .ttip .box {
+            width: 44px;
+            height: 43px;
+            display: inline-block;
+            line-height: 43px;
+            border-radius: 6px;
+            color: black;
+            background-color: white;
+            position: absolute;
+            text-align: center;
+        }
+
+    .voteOption a {
+        text-decoration: none;
+    }
+</style>
+
+<dl class="row">
+    <div class='span8 col-md-8' itemscope itemtype="http://schema.org/CreativeWork">
+        @*<meta itemprop='name' content=' @tablica.tablicaName' />*@
+        <div style='height: 20px; width: 100%;'></div>
+        <span class='lead'>Tablica rejestracyjna</span>
+
+        <a itemscope itemprop='image' itemtype='http://schema.org/ImageObject'>
+            <a class='plate'>@tablica.tablicaName</a>
+        </a>
+
+        <div style='clear: both; height: 20px;'></div>
+        <span itemprop='contentLocation' itemscope itemtype='http://schema.org/AdministrativeArea'>Województwo <span itemprop='name'> @tablica.powiat.Name</span></span>
+        <br />
+        <span itemprop='contentLocation' itemscope itemtype='http://schema.org/AdministrativeArea'>Powiat <span itemprop='name'>@tablica.powiat.wojewodztwoid.Name</span></span>
+        <br />
+        @if (tablica.Nazwa_pojazdu != null)
+        {
+        Pojazd:
+            <span itemprop='description'>@tablica.Nazwa_pojazdu</span>
+        }
+
+        <br />
+        @*<dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.tablicaName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.tablicaName)
+        </dd>*@
+        <script>
+            var ocen_w_dol = function (value) {
+
+            }
+            var ocen_w_gore = function (value) {
+
+            }
+
+        </script>
+
+        <h3>
+            Oceń kierowcę
+        </h3>
+        <div class="voteOption">
+            <a method="post" asp-controller="tablice" asp-action="Ocena_tablice" asp-route-idX="@tablica.tablicaId" asp-route-ocen_w_gore=" @tablica.ocen_w_gore">
+                <span class="fingerUp" title="Dobry kierowca"></span>
+            </a>
+            <div class="ttip">
+                <div class="caret"></div>
+                <div id="cnt1" class="box">
+                    @tablica.ocen_w_gore
+                </div>
+            </div>
+        </div>
+        <div class="voteOption">
+            <a method="post" asp-controller="tablice" asp-action="Ocena_tablice" asp-route-idX="@tablica.tablicaId" asp-route-ocen_w_dol=" @tablica.ocen_w_dol">
+                <span class="fingerDown" title="Zły kierowca"></span>
+            </a>
+            <div class="ttip">
+                <div class="caret"></div>
+                <div id="cnt-1" class="box">
+                    @tablica.ocen_w_dol
+                </div>
+            </div>
+        </div>
+        @*<dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ocen_w_gore)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ocen_w_gore)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ocen_w_dol)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ocen_w_dol)
+        </dd>*@
+
+</dl>
+
+@for (int i = 0; i < komentarze.Count(); i++)
+{
+    <div class="comment ">
+        @if (SignInManager.IsSignedIn(User))
+        {
+            if (UserManager == null)
+                if (UserManager.GetUserId(User) == tablica.UserID.Id)
+                {
+
+                    <form asp-action="Delete" asp-controller="tablice" asp-route-id1="@komentarze[i].komentarzID">
+                        <button style="float: right; margin-top: -20px; margin-left: 10px;" class="btn-danger btn-delete">X</button>
+                    </form>
+                }
+
+
+
+        }
+        <a itemscope itemprop='image' itemtype='http://schema.org/ImageObject'>
+            <a asp-action="Details" asp-route-id="@tablica.tablicaId" class='plate'>@tablica.tablicaName</a>
+        </a>
+
+        <span style="float: right; margin-top: -10px; font-size: x-small; font-weight: bold;">
+
+            <span class="name">
+                @komentarze[i].Name  @komentarze[i].CommentDate
+
+
+            </span>
+        </span>
+        <br />
+        <br />
+        <span class="text" itemprop="text">
+            @komentarze[i].tresc_comment
+            <a href="@Url.Content(komentarze[i].zdjecie)">
+                <img src=@Url.Content(komentarze[i].zdjecie)></img>
+            </a>
+
+        </span>
+
+    </div>
+}
+
+
+
+
+
+<div class="container">
+    <br />
+    <p>Your Comment</p>
+    <form asp-action="Details" asp-controller="tablice" method="post" new { enctype="multipart/form-data" } asp-route-id="@tablica.tablicaId">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input asp-for="Name" rows="3" placeholder="Your Name" class="form-control"></input>
+        <textarea asp-for="tresc_comment" rows="3" placeholder="Your Comment" class="form-control"></textarea>
+        @*<input asp-for="tresc_comment" rows="3" placeholder="Your Comment" class="form-control"></input>*@
+        <input type="file" name="zdjecie" asp-for="zdjecie"></input>
+
+        <input type="submit" value="Comment" class="btn btn-primary" />
+    </form>
+</div>
+
+
